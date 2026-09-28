@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="1"> press me </button>
+    <div id="2" style="border: 2px solid red;width: 400px;">
+        <button id="3"> press me </button>
+        <h1> hello </h1>
+        <h1 id="4"></h1>
+    </div>
+
+
+
+    <div class="task-list" id="taskList">
+
+        <!-- creating form to add new task -->
+        <form id="Taskform">
+            <!-- creating form labels -->
+            <div style=" display: flex; width:400px; flex-direction: column;">
+                <label>task title:
+                    a = <input type="text" name="taskTitle">
+
+                </label>
+                <label>task description:
+                    b = <input type="text" name="taskDescription">
+                </label>
+                <label>task status:
+                    c = <input type="text" name="taskStatus">
+                </label>
+                <label>task deadline:
+                    d = <input type="date" name="taskDeadline">
+                </label>
+                <button style="width: 200px;" name="addTaskButton">Add Task</button>
+
+        </form>
+
+        <!-- creating a div to format the task list -->
+        <div </div>
+
+            <script>
+                document.getElementById("1").addEventListener("click", function () {
+                    alert("Button pressed!");
+                });
+
+
+                document.getElementById("3").addEventListener("click", function () {
+                    document.getElementById("4").innerText = "Button inside div pressed!";
+
+                    document.getElementById("2").style.border = "2px solid green";
+
+
+                });
+                let taskList = document.querySelector(".task-list");
+                fetch('http://localhost:8000/task')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.data);
+                        for (const task of data.data) {
+                            console.log(task.task_title);
+
+                            const taskElement = document.createElement("div");
+
+                            taskElement.innerHTML = `
+
+                        <p>Title: ${task.task_title || ""}</p>
+
+                        <p>Description: ${task.task_description || ""}</p>
+
+                        <p>Status: ${task.status || ""}</p>
+
+                        <p>Deadline: ${task.deadline || ""}</p>
+
+                    `;
+
+                            taskList.appendChild(taskElement);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+
+                    });
+
+                document.getElementById("Taskform").addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+
+                    const newformdata = new FormData(event.target);
+                    const formdatabody = {
+                        title: newformdata.get("taskTitle"),
+                        description: newformdata.get("taskDescription"),
+                        status: newformdata.get("taskStatus"),
+                        //deadline: newformdata.get("taskDeadline"),
+                        user_id: "15a6cd6d-788b-45d6-a61b-d2222c9685e1"
+                    };
+
+
+                    async function api_call() {
+                        let res = await fetch('http://localhost:8000/task', {
+                            method: 'POST',
+                            body: JSON.stringify(formdatabody),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+
+                        })
+                        res  =await res.json();
+                        console.log(res);
+
+                    }
+                    api_call()
+ 
+                })
+
+
+
+
+            </script>
+
+</body>
+
+</html>

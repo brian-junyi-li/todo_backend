@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+    
+
+ 
+
+</head>
+<body>
+
+       <p id = "demo"></p>
+        
+
+
+
+
+
+    <script>
+
+function multiplier()
+{
+a = Number(prompt("enter 1st number"))
+b = Number(prompt("enter 2nd number"))
+op = prompt("enter operator")
+if (op == "*") {
+   return a*b
+
+}
+else if (op == "+") {
+    return a+b
+}
+else if (op == "-") {
+    return a-b
+}
+else if (op == "/") {
+    return a/b
+}
+else {
+    return "invalid operator"
+}
+}
+
+ans = multiplier()
+
+document.getElementById("demo").innerHTML = "ans = " + ans;
+
+
+
+    </script>
+</body>
+</html>
